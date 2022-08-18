@@ -3,13 +3,14 @@ package main
 import (
 	"net/http"
 
+	"github.com/Gprisco/decanto-pairing-service/consul"
 	"github.com/Gprisco/decanto-pairing-service/env"
-	"github.com/Gprisco/decanto-pairing-service/services"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	services.Register()
+	consul.Register()
+
 	r := gin.Default()
 	baseUrl := env.GetInstance().BaseURL
 
