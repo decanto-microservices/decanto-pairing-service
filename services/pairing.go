@@ -18,7 +18,7 @@ func PairFamilies(recipeId primitive.ObjectID) []models.Winefamily { // Temporan
 	resp, err := http.Get(fmt.Sprintf("http://%s:%v/decanto/food/recipe/%s", foodService.Address, foodService.Port, recipeId.Hex()))
 
 	if err != nil {
-		panic(err)
+		return []models.Winefamily{}
 	}
 
 	defer resp.Body.Close()
