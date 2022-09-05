@@ -62,6 +62,6 @@ spec:
             - name: PORT
               value: ":9093"
             - name: BASE_URL
-              value: "decanto/winefamily"
+              value: "decanto/pairing"
             - name: SERVICE_ID
               value: "decanto-pairing-service"
