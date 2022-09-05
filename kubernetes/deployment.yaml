@@ -1,0 +1,67 @@
+# Ensure HTTP protocol to enable L7 traffic management
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: decanto-pairing-service
+spec:
+  protocol: "http"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: decanto-pairing-service
+spec:
+  selector:
+    app: decanto-pairing-service
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9093
+      targetPort: 9093
+
+---
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: decanto-pairing-service-deployment
+
+  labels:
+    app: decanto-pairing-service
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: decanto-pairing-service
+
+  template:
+    metadata:
+      labels:
+        app: decanto-pairing-service
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+        consul.hashicorp.com/connect-service-upstreams: "consul-server.consul:8500,decanto-db.mongo.cosmos.azure.com:10255"
+
+    spec:
+      containers:
+        - name: decanto-pairing-service
+
+          image: decanto-pairing-service:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 9093
+
+          env:
+            - name: CONSUL_ADDR
+              value: "consul-server.consul:8500"
+            - name: PORT
+              value: ":9093"
+            - name: BASE_URL
+              value: "decanto/winefamily"
+            - name: SERVICE_ID
+              value: "decanto-pairing-service"
