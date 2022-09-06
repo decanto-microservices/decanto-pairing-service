@@ -66,6 +66,6 @@ spec:
             - name: SERVICE_ID
               value: "decanto-pairing-service"
             - name: WINEFAMILY_URL
-              value: "decanto-winefamily-service:9091"
+              value: "http://localhost:9091"
             - name: FOOD_URL
-              value: "decanto-food-service:9092"
+              value: "http://localhost:9092"
