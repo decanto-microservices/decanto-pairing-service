@@ -12,7 +12,7 @@ import (
 )
 
 func PairFamilies(recipeId primitive.ObjectID) []models.Winefamily { // Temporaneamente ritornando models.Recipe
-	resp, err := http.Get(fmt.Sprintf("http://%s/decanto/food/recipe/%s", env.GetInstance().FoodURL, recipeId.Hex()))
+	resp, err := http.Get(fmt.Sprintf("%s/decanto/food/recipe/%s", env.GetInstance().FoodURL, recipeId.Hex()))
 
 	if err != nil {
 		println(err.Error())
@@ -118,7 +118,7 @@ func getFamilies(winetypeIds []int, winecolorIds []int, food models.Food) []mode
 
 	var winefamilies []models.Winefamily
 
-	resp, err := http.Get(fmt.Sprintf("http://%s/decanto/winefamily"+queryString, env.GetInstance().WinefamilyURL))
+	resp, err := http.Get(fmt.Sprintf("%s/decanto/winefamily"+queryString, env.GetInstance().WinefamilyURL))
 
 	if err != nil {
 		panic(err)
