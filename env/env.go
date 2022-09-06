@@ -12,11 +12,13 @@ import (
 var lock = &sync.Mutex{}
 
 type Config struct {
-	Port      string
-	DSN       string
-	DB        string
-	BaseURL   string
-	ServiceID string
+	Port          string
+	DSN           string
+	DB            string
+	BaseURL       string
+	ServiceID     string
+	FoodURL       string
+	WinefamilyURL string
 }
 
 func newConfig() *Config {
@@ -49,6 +51,9 @@ func newConfig() *Config {
 
 	config.BaseURL = os.Getenv("BASE_URL")
 	config.ServiceID = os.Getenv("SERVICE_ID")
+
+	config.FoodURL = os.Getenv("FOOD_URL")
+	config.WinefamilyURL = os.Getenv("WINEFAMILY_URL")
 
 	return config
 }

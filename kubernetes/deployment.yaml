@@ -44,7 +44,7 @@ spec:
         app: decanto-pairing-service
       annotations:
         consul.hashicorp.com/connect-inject: "true"
-        consul.hashicorp.com/connect-service-upstreams: "consul-server.consul:8500,decanto-db.mongo.cosmos.azure.com:10255"
+        consul.hashicorp.com/connect-service-upstreams: "consul-server.consul:8500,decanto-db.mongo.cosmos.azure.com:10255,decanto-winefamily-service:9091,decanto-food-service:9092"
 
     spec:
       containers:
@@ -65,3 +65,7 @@ spec:
               value: "decanto/pairing"
             - name: SERVICE_ID
               value: "decanto-pairing-service"
+            - name: WINEFAMILY_URL
+              value: "decanto-winefamily-service:9091"
+            - name: FOOD_URL
+              value: "decanto-food-service:9092"

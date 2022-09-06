@@ -5,19 +5,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Gprisco/decanto-pairing-service/consul"
+	"github.com/Gprisco/decanto-pairing-service/env"
 	"github.com/Gprisco/decanto-pairing-service/helpers"
 	"github.com/Gprisco/decanto-pairing-service/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func PairFamilies(recipeId primitive.ObjectID) []models.Winefamily { // Temporaneamente ritornando models.Recipe
-	servicesMap := consul.Discovery()
-	foodService := servicesMap["decanto-food-service"]
-
-	resp, err := http.Get(fmt.Sprintf("http://%s:%v/decanto/food/recipe/%s", foodService.Address, foodService.Port, recipeId.Hex()))
+	resp, err := http.Get(fmt.Sprintf("http://%s/decanto/food/recipe/%s", env.GetInstance().FoodURL, recipeId.Hex()))
 
 	if err != nil {
+		println(err.Error())
 		return []models.Winefamily{}
 	}
 
@@ -80,9 +78,6 @@ func getWineTypesAndColors(recipe models.Recipe) (winetypeIds []int, winecolorId
 }
 
 func getFamilies(winetypeIds []int, winecolorIds []int, food models.Food) []models.Winefamily {
-	servicesMap := consul.Discovery()
-	winefamilyService := servicesMap["decanto-winefamily-service"]
-
 	queryString := "?page=1&limit=50&winetypeIds="
 
 	for index, elem := range winetypeIds {
@@ -123,7 +118,7 @@ func getFamilies(winetypeIds []int, winecolorIds []int, food models.Food) []mode
 
 	var winefamilies []models.Winefamily
 
-	resp, err := http.Get(fmt.Sprintf("http://%s:%v/decanto/winefamily"+queryString, winefamilyService.Address, winefamilyService.Port))
+	resp, err := http.Get(fmt.Sprintf("http://%s/decanto/winefamily"+queryString, env.GetInstance().WinefamilyURL))
 
 	if err != nil {
 		panic(err)
